@@ -1,48 +1,96 @@
 """
-Database Schemas
+Database Schemas for Sola
 
-Define your MongoDB collection schemas here using Pydantic models.
-These schemas are used for data validation in your application.
-
-Each Pydantic model represents a collection in your database.
-Model name is converted to lowercase for the collection name:
-- User -> "user" collection
-- Product -> "product" collection
-- BlogPost -> "blogs" collection
+Each Pydantic model maps to a MongoDB collection (lowercase of class name).
+These schemas are used for validation and for the /schema endpoint.
 """
 
 from pydantic import BaseModel, Field
-from typing import Optional
+from typing import Optional, List, Dict, Any
 
-# Example schemas (replace with your own):
+# Core entities
+class Habit(BaseModel):
+    name: str = Field(..., description="Habit display name")
+    active: bool = Field(True, description="Whether the habit is active")
+    schedule: Optional[List[int]] = Field(
+        default=None,
+        description="Optional list of weekday indexes (0=Mon..6=Sun) when habit is scheduled. None = daily.",
+    )
 
-class User(BaseModel):
-    """
-    Users collection schema
-    Collection name: "user" (lowercase of class name)
-    """
-    name: str = Field(..., description="Full name")
-    email: str = Field(..., description="Email address")
-    address: str = Field(..., description="Address")
-    age: Optional[int] = Field(None, ge=0, le=120, description="Age in years")
-    is_active: bool = Field(True, description="Whether user is active")
+class Habitlog(BaseModel):
+    habit_id: str = Field(..., description="Reference to habit _id as string")
+    date: str = Field(..., description="ISO date YYYY-MM-DD")
+    completed: bool = Field(False, description="Completed status for this date")
+    xp_awarded: bool = Field(False, description="Whether XP was already awarded for this completion")
 
-class Product(BaseModel):
-    """
-    Products collection schema
-    Collection name: "product" (lowercase of class name)
-    """
-    title: str = Field(..., description="Product title")
-    description: Optional[str] = Field(None, description="Product description")
-    price: float = Field(..., ge=0, description="Price in dollars")
-    category: str = Field(..., description="Product category")
-    in_stock: bool = Field(True, description="Whether product is in stock")
+class Mood(BaseModel):
+    date: str = Field(..., description="ISO date YYYY-MM-DD")
+    rating: int = Field(..., ge=1, le=5, description="Mood rating 1-5")
+    xp_awarded: bool = Field(False, description="Whether XP was awarded for mood log")
 
-# Add your own schemas here:
-# --------------------------------------------------
+class Task(BaseModel):
+    title: str = Field(..., description="Task title")
+    date: str = Field(..., description="ISO date YYYY-MM-DD the task belongs to")
+    status: str = Field("open", description="open|completed|deferred|archived")
+    note: Optional[str] = Field(None, description="Optional notes")
 
-# Note: The Flames database viewer will automatically:
-# 1. Read these schemas from GET /schema endpoint
-# 2. Use them for document validation when creating/editing
-# 3. Handle all database operations (CRUD) directly
-# 4. You don't need to create any database endpoints!
+class Mission(BaseModel):
+    date: str = Field(..., description="ISO date YYYY-MM-DD")
+    text: str = Field(..., description="Mission of the day text")
+    done: bool = Field(False, description="Whether the mission is completed")
+    xp_awarded: bool = Field(False, description="Whether XP was awarded for mission completion")
+
+class Dailysummary(BaseModel):
+    date: str = Field(..., description="ISO date YYYY-MM-DD")
+    habits_done: bool = Field(False)
+    mood_logged: bool = Field(False)
+    tasks_updated: bool = Field(False)
+    complete: bool = Field(False)
+    xp_awarded: bool = Field(False, description="Whether +25 XP for daily completion was awarded")
+    streak_after: int = Field(0, description="Streak after marking complete")
+
+class Xpstate(BaseModel):
+    total_xp: int = Field(0)
+    level: int = Field(1)
+    xp_in_level: int = Field(0, description="XP progress within current level")
+    xp_for_next: int = Field(100, description="XP needed to reach next level from start of level")
+    streak: int = Field(0)
+    missions_finished: int = Field(0)
+    mood_logs: int = Field(0)
+    habit_completions: int = Field(0)
+
+class Achievement(BaseModel):
+    key: str = Field(..., description="Unique achievement key")
+    name: str = Field(..., description="Display name")
+    unlocked_at: Optional[str] = Field(None, description="ISO datetime")
+
+class Weeklysummary(BaseModel):
+    week_start: str = Field(..., description="ISO date YYYY-MM-DD (Monday)")
+    week_end: str = Field(..., description="ISO date YYYY-MM-DD (Sunday)")
+    habit_completion_pct: float = Field(0)
+    mood_avg: Optional[float] = Field(None)
+    task_completion_pct: float = Field(0)
+    xp_earned: int = Field(0)
+    streak_start: int = Field(0)
+    streak_end: int = Field(0)
+    highlights: Optional[Dict[str, Any]] = Field(default=None)
+    bonus_awarded: bool = Field(False)
+
+class Note(BaseModel):
+    title: str = Field(...)
+    text: str = Field("")
+    category: Optional[str] = Field(None, description="Category label")
+
+# Export schema metadata for /schema endpoint consumers
+SCHEMA_MODELS = {
+    "habit": Habit.model_json_schema(),
+    "habitlog": Habitlog.model_json_schema(),
+    "mood": Mood.model_json_schema(),
+    "task": Task.model_json_schema(),
+    "mission": Mission.model_json_schema(),
+    "dailysummary": Dailysummary.model_json_schema(),
+    "xpstate": Xpstate.model_json_schema(),
+    "achievement": Achievement.model_json_schema(),
+    "weeklysummary": Weeklysummary.model_json_schema(),
+    "note": Note.model_json_schema(),
+}

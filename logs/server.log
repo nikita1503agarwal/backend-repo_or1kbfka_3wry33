@@ -1,0 +1,39 @@
+INFO:     Will watch for changes in these directories: ['/home/workspace']
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     Started reloader process [181] using StatReload
+INFO:     Started server process [183]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     172.20.0.1:53202 - "HEAD / HTTP/1.1" 405 Method Not Allowed
+INFO:     172.20.0.1:35134 - "OPTIONS /api/xpstate HTTP/1.1" 200 OK
+INFO:     172.20.0.1:35134 - "OPTIONS /api/notes HTTP/1.1" 200 OK
+INFO:     172.20.0.1:35140 - "OPTIONS /api/habits HTTP/1.1" 200 OK
+INFO:     172.20.0.1:35152 - "OPTIONS /api/day/status?d=2025-11-19 HTTP/1.1" 200 OK
+INFO:     172.20.0.1:35156 - "OPTIONS /api/mood/2025-11-19 HTTP/1.1" 200 OK
+INFO:     172.20.0.1:35164 - "OPTIONS /api/tasks?d=2025-11-19 HTTP/1.1" 200 OK
+INFO:     172.20.0.1:35176 - "OPTIONS /api/mission?d=2025-11-19 HTTP/1.1" 200 OK
+INFO:     172.20.0.1:35134 - "OPTIONS /api/achievements HTTP/1.1" 200 OK
+INFO:     172.20.0.1:35140 - "OPTIONS /api/xpstate HTTP/1.1" 200 OK
+INFO:     172.20.0.1:35152 - "OPTIONS /api/mission?d=2025-11-19 HTTP/1.1" 200 OK
+INFO:     172.20.0.1:35156 - "OPTIONS /api/day/status?d=2025-11-19 HTTP/1.1" 200 OK
+INFO:     172.20.0.1:35164 - "OPTIONS /api/mood/2025-11-19 HTTP/1.1" 200 OK
+INFO:     172.20.0.1:35176 - "OPTIONS /api/habits HTTP/1.1" 200 OK
+INFO:     172.20.0.1:35134 - "OPTIONS /api/tasks?d=2025-11-19 HTTP/1.1" 200 OK
+INFO:     172.20.0.1:35140 - "OPTIONS /api/notes HTTP/1.1" 200 OK
+INFO:     172.20.0.1:35152 - "OPTIONS /api/achievements HTTP/1.1" 200 OK
+INFO:     172.20.0.1:35164 - "GET /api/notes HTTP/1.1" 200 OK
+INFO:     172.20.0.1:35152 - "GET /api/tasks?d=2025-11-19 HTTP/1.1" 200 OK
+INFO:     172.20.0.1:35156 - "GET /api/xpstate HTTP/1.1" 200 OK
+INFO:     172.20.0.1:35164 - "GET /api/mission?d=2025-11-19 HTTP/1.1" 200 OK
+INFO:     172.20.0.1:35152 - "GET /api/achievements HTTP/1.1" 200 OK
+INFO:     172.20.0.1:35156 - "GET /api/xpstate HTTP/1.1" 200 OK
+INFO:     172.20.0.1:35164 - "GET /api/mission?d=2025-11-19 HTTP/1.1" 200 OK
+INFO:     172.20.0.1:35176 - "GET /api/habits HTTP/1.1" 200 OK
+INFO:     172.20.0.1:35134 - "GET /api/mood/2025-11-19 HTTP/1.1" 200 OK
+INFO:     172.20.0.1:35156 - "GET /api/mood/2025-11-19 HTTP/1.1" 200 OK
+INFO:     172.20.0.1:35140 - "GET /api/day/status?d=2025-11-19 HTTP/1.1" 200 OK
+INFO:     172.20.0.1:35164 - "GET /api/habits HTTP/1.1" 200 OK
+INFO:     172.20.0.1:35176 - "GET /api/tasks?d=2025-11-19 HTTP/1.1" 200 OK
+INFO:     172.20.0.1:35134 - "GET /api/notes HTTP/1.1" 200 OK
+INFO:     172.20.0.1:35156 - "GET /api/achievements HTTP/1.1" 200 OK
+INFO:     172.20.0.1:35152 - "GET /api/day/status?d=2025-11-19 HTTP/1.1" 200 OK
